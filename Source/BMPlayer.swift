@@ -109,7 +109,7 @@ open class BMPlayer: UIView {
     fileprivate var isMirrored      = false
     fileprivate var isPlayToTheEnd  = false
     //视频画面比例
-    fileprivate var aspectRatio: BMPlayerAspectRatio = .default
+    public var aspectRatio: BMPlayerAspectRatio = .default
     
     //Cache is playing result to improve callback performance
     fileprivate var isPlayingCache: Bool? = nil

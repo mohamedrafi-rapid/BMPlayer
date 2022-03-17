@@ -100,7 +100,7 @@ open class BMPlayerLayerView: UIView {
     
     fileprivate var lastPlayerItem: AVPlayerItem?
     /// playerLayer
-    fileprivate var playerLayer: AVPlayerLayer?
+    public var playerLayer: AVPlayerLayer?
     /// 音量滑杆
     fileprivate var volumeViewSlider: UISlider!
     /// 播放器的几种状态

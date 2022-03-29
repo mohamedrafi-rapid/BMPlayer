@@ -164,6 +164,7 @@ open class BMPlayer: UIView {
         panGesture.isEnabled = true
         playerLayer?.play()
         isPauseByUser = false
+        NotificationCenter.default.post(name: Notification.Name("verticalPlayerState"), object: "pause")
     }
     
     /**

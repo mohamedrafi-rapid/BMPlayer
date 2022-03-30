@@ -11,12 +11,25 @@ import SnapKit
 import MediaPlayer
 
 /// BMPlayerDelegate to obserbe player state
-public protocol BMPlayerDelegate : class {
+public protocol BMPlayerDelegate : AnyObject {
     func bmPlayer(player: BMPlayer, playerStateDidChange state: BMPlayerState)
     func bmPlayer(player: BMPlayer, loadedTimeDidChange loadedDuration: TimeInterval, totalDuration: TimeInterval)
     func bmPlayer(player: BMPlayer, playTimeDidChange currentTime : TimeInterval, totalTime: TimeInterval)
     func bmPlayer(player: BMPlayer, playerIsPlaying playing: Bool)
     func bmPlayer(player: BMPlayer, playerOrientChanged isFullscreen: Bool)
+    
+    func playButtonClicked(player: BMPlayer)
+    func pauseButtonClicked(player: BMPlayer)
+}
+
+extension BMPlayerDelegate {
+    func playButtonClicked(player: BMPlayer) {
+        
+    }
+    
+    func pauseButtonClicked(player: BMPlayer) {
+        
+    }
 }
 
 /**
@@ -165,6 +178,7 @@ open class BMPlayer: UIView {
         playerLayer?.play()
         isPauseByUser = false
         NotificationCenter.default.post(name: Notification.Name("verticalPlayerState"), object: "pause")
+        
     }
     
     /**
@@ -525,6 +539,7 @@ extension BMPlayer: BMPlayerControlViewDelegate {
             case .play:
                 if button.isSelected {
                     pause()
+                    delegate?.pauseButtonClicked(player: self)
                 } else {
                     if isPlayToTheEnd {
                         seek(0, completion: {[weak self] in
@@ -534,12 +549,16 @@ extension BMPlayer: BMPlayerControlViewDelegate {
                         isPlayToTheEnd = false
                     }
                     play()
+                    
+                    delegate?.playButtonClicked(player: self)
                 }
                 
             case .replay:
                 isPlayToTheEnd = false
                 seek(0)
                 play()
+                
+                delegate?.playButtonClicked(player: self)
                 
             case .fullscreen:
                 fullScreenButtonPressed()

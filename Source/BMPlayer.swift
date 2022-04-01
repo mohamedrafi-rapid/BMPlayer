@@ -18,18 +18,7 @@ public protocol BMPlayerDelegate : AnyObject {
     func bmPlayer(player: BMPlayer, playerIsPlaying playing: Bool)
     func bmPlayer(player: BMPlayer, playerOrientChanged isFullscreen: Bool)
     
-    func playButtonClicked(player: BMPlayer)
-    func pauseButtonClicked(player: BMPlayer)
-}
-
-extension BMPlayerDelegate {
-    func playButtonClicked(player: BMPlayer) {
-        
-    }
-    
-    func pauseButtonClicked(player: BMPlayer) {
-        
-    }
+    func bmPlayer(player: BMPlayer, playButtonPressed isPlay: Bool)
 }
 
 /**
@@ -539,7 +528,7 @@ extension BMPlayer: BMPlayerControlViewDelegate {
             case .play:
                 if button.isSelected {
                     pause()
-                    delegate?.pauseButtonClicked(player: self)
+                    delegate?.bmPlayer(player: self, playButtonPressed: false)
                 } else {
                     if isPlayToTheEnd {
                         seek(0, completion: {[weak self] in
@@ -550,7 +539,7 @@ extension BMPlayer: BMPlayerControlViewDelegate {
                     }
                     play()
                     
-                    delegate?.playButtonClicked(player: self)
+                    delegate?.bmPlayer(player: self, playButtonPressed: true)
                 }
                 
             case .replay:
@@ -558,7 +547,7 @@ extension BMPlayer: BMPlayerControlViewDelegate {
                 seek(0)
                 play()
                 
-                delegate?.playButtonClicked(player: self)
+                delegate?.bmPlayer(player: self, playButtonPressed: true)
                 
             case .fullscreen:
                 fullScreenButtonPressed()

@@ -193,9 +193,15 @@ open class BMPlayer: UIView {
      update UI to fullScreen
      */
     open func updateUI(_ isFullScreen: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            self.controlView.updateUI(isFullScreen)
-        })
+        if #available(iOS 16.0, *) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                self.controlView.updateUI(isFullScreen)
+            })
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                self.controlView.updateUI(isFullScreen)
+            })
+        }
     }
     
     /**
@@ -343,7 +349,15 @@ open class BMPlayer: UIView {
     }
     
     @objc fileprivate func fullScreenButtonPressed() {
-        controlView.updateUI(!self.isFullScreen)
+        if #available(iOS 16.0, *) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                self.controlView.updateUI(self.isFullScreen)
+            })
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                self.controlView.updateUI(self.isFullScreen)
+            })
+        }
         if isFullScreen {
             if #available(iOS 16.0, *) {
                 let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
